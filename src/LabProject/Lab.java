@@ -8,13 +8,23 @@ class Student {
     private final String lastname;
     private final String id;
     private double grade;
+    private Lab lab;
 // The Student Class takes the first and last name, and the id of the student
 // to create a file for him/her through the constructor
+    public Student(String firstname, String lastname, String id, Lab lab) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.id = id.substring(0,7);
+        this.grade = 0;
+        (this.lab = lab).enrollStudent(this);
+    }
+// Creating a student before creating a lab
     public Student(String firstname, String lastname, String id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.id = id.substring(0,7);
         this.grade = 0;
+        (this.lab = new Lab("TEACHER", "DAY", 50)).enrollStudent(this);
     }
 // This method prints the info of the student in an elegant way
     public void printStudentInfo() {
@@ -23,11 +33,17 @@ class Student {
 // This method sets a grade for the student
 // If the grade given is more than 20, the modulus of the number w.r.t. 20 is taken
     public void setGrade(double grade) {
+
         this.grade = grade % 20 ;
+        this.lab.calAvg();
     }
 // This method returns the grade of the student
     public double getGrade() {
         return grade;
+    }
+
+    public Lab getLab() {
+        return lab;
     }
 }
 
@@ -65,11 +81,10 @@ class Lab {
     {
         if (currentSize <= maxSize)
         {
-            students[currentSize ] = student;
-            currentSize++;
+            this.students[currentSize] = student;
+            this.currentSize++;
             calAvg();
         }
-
     }
 // This method prints the info of the Lab in an elegant way
     public void printLabInfo()
